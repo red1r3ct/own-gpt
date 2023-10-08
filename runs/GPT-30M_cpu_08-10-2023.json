@@ -1,0 +1,33 @@
+{
+    "name": "GPT-30M-cpu",
+    "dataset": "./datasets/arxiv_abstracts_v2",
+    "train": {
+        "eval_interval": 20,
+        "log_interval": 1,
+        "eval_iters": 10,
+        "gradient_accumulation_steps": 40,
+        "batch_size": 12,
+        "learning_rate": 6e-4,
+        "max_iters": 600000,
+        "weight_decay": 1e-1,
+        "beta1": 0.9,
+        "beta2": 0.95,
+        "grad_clip": 1,
+        "decay_lr": true,
+        "warmup_iters": 2000,
+        "lr_decay_iters": 600000,
+        "min_lr": 6e-5
+    },
+    "model": {
+        "block_size": 128,
+        "n_layer": 6,
+        "n_head": 8,
+        "n_embd_frac": 32,
+        "dropout": 0.0,
+        "bias": false
+    },
+    "wandb": {
+        "project": "own-gpt"
+    }
+}
+
