@@ -32,7 +32,6 @@ class CausalSelfAttention(nn.Module):
         )
         self.causal_mask = torch.triu(torch.full((config.block_size, config.block_size), float('-inf')), diagonal=1)
         self.causal_mask = self.causal_mask.unsqueeze(0).repeat(config.batch_size*config.n_head, 1, 1)
-        self.causal_mask = self.causal_mask.eq(float('-inf')).bool()
         self.causal_mask = self.causal_mask.to(config.device)
 
     def forward(self, x, key_padding_mask=None):
@@ -157,7 +156,7 @@ class GPT(nn.Module):
         # use attention mask to hide pad tokens
         attn_mask = None
         if self.config.pad_token_idx is not None:
-            attn_mask = idx.eq(self.config.pad_token_idx).bool()
+            attn_mask = idx.eq(self.config.pad_token_idx) * float("-inf")
         x = self.transformer.h[0](x, key_padding_mask=attn_mask)
         for block in self.transformer.h[1:]:
             x = block(x)
